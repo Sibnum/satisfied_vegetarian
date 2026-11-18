@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:16-alpine
+        image: postgres:18.7
         env:
           POSTGRES_USER: django_user
           POSTGRES_PASSWORD: django_password
@@ -68,19 +68,19 @@ jobs:
           context: .
           file: backend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/foodgram_backend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/satisfiedvegetarian-backend:latest
       - name: Build and push frontend
         uses: docker/build-push-action@v6
         with:
           context: ./frontend
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/foodgram_frontend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/satisfiedvegetarian-frontend:latest
       - name: Build and push gateway
         uses: docker/build-push-action@v6
         with:
           context: ./nginx
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/foodgram_gateway:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/satisfiedvegetarian-gateway:latest
 
   deploy:
     runs-on: ubuntu-latest

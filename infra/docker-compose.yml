@@ -1,3 +1,4 @@
+name: satisfiedvegetarian
 volumes:
   postgres_data:
   static_value:
@@ -6,29 +7,38 @@ volumes:
 
 services:
   db:
-    image: postgres:16-alpine
-    container_name: foodgram-db
+    image: postgres:18.7
+    container_name: satisfiedvegetarian-db
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql
     env_file:
       - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     restart: always
 
   backend:
-    image: sibnum/foodgram_backend:latest
-    container_name: foodgram_backend
+    image: sibnum/satisfiedvegetarian-backend:latest
+    container_name: satisfiedvegetarian-backend
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     env_file:
       - .env
     restart: always
 
   frontend:
-    image: sibnum/foodgram_frontend:latest
-    container_name: foodgram_frontend
+    image: sibnum/satisfiedvegetarian-frontend:latest
+    container_name: satisfiedvegetarian-frontend
     volumes:
       - frontend_static:/app/build
     env_file:
@@ -38,8 +48,10 @@ services:
     restart: always
 
   gateway:
-    image: sibnum/foodgram_gateway:latest
-    container_name: foodgram-gateway
+    image: sibnum/satisfiedvegetarian-gateway:latest
+    container_name: satisfiedvegetarian-gateway
+    environment:
+      - DOMAIN=${DOMAIN}
     ports:
       - "80:80"
       - "443:443"
