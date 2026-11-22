@@ -1,4 +1,4 @@
-name: satisfiedvegetarian
+name: satisfied_vegetarian
 volumes:
   postgres_data:
   static_value:
@@ -8,7 +8,7 @@ volumes:
 services:
   db:
     image: postgres:18.7
-    container_name: satisfiedvegetarian-db
+    container_name: satisfied_vegetarian-db
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
@@ -24,8 +24,8 @@ services:
     restart: always
 
   backend:
-    image: sibnum/satisfiedvegetarian-backend:latest
-    container_name: satisfiedvegetarian-backend
+    image: sibnum/satisfied_vegetarian-backend:latest
+    container_name: satisfied_vegetarian-backend
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
@@ -37,8 +37,8 @@ services:
     restart: always
 
   frontend:
-    image: sibnum/satisfiedvegetarian-frontend:latest
-    container_name: satisfiedvegetarian-frontend
+    image: sibnum/satisfied_vegetarian-frontend:latest
+    container_name: satisfied_vegetarian-frontend
     volumes:
       - frontend_static:/app/build
     env_file:
@@ -48,8 +48,8 @@ services:
     restart: always
 
   gateway:
-    image: sibnum/satisfiedvegetarian-gateway:latest
-    container_name: satisfiedvegetarian-gateway
+    image: sibnum/satisfied_vegetarian-gateway:latest
+    container_name: satisfied_vegetarian-gateway
     environment:
       - DOMAIN=${DOMAIN}
     ports:
