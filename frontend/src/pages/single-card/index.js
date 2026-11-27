@@ -224,7 +224,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
                     </>
                   ) : (
                     <>
-                      <Icons.PlusIcon /> Добавить в покупки
+                      <Icons.PlusIcon /> Ингредиенты для покупок
                     </>
                   )}
                 </Button>
